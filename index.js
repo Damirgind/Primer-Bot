@@ -12,8 +12,6 @@ const axios = require('axios')
 const express = require('express')
 const https = require('https')
 const fs = require('fs')
-const { log } = require('console')
-const { env } = require('process')
 const app = express()
 
 // Создание бота
