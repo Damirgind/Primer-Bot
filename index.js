@@ -19,8 +19,8 @@ const bot = new Bot(process.env.BOT_API_KEY)
 exports.bot = bot
 
 // Получение значений из переменных окружения
-const privateKey = process.env.PRIVATE_KEY.replace(/\\n/g, '\n')
-const certificate = process.env.CERTIFICATE.replace(/\\n/g, '\n')
+const privateKey = process.env.PRIVATE_KEY
+const certificate = process.env.CERTIFICATE
 
 const credentials = { key: privateKey, cert: certificate }
 
