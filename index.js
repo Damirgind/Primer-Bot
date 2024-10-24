@@ -12,6 +12,8 @@ const axios = require('axios')
 const express = require('express')
 const https = require('https')
 const fs = require('fs')
+const { log } = require('console')
+const { env } = require('process')
 const app = express()
 
 // Создание бота
@@ -1026,12 +1028,24 @@ bot.catch(err => {
 	} else {
 		console.error('Unknown error:', e)
 	}
-})
+})(
+	// Установка вебхука перед запуском сервера
+	async () => {
+		try {
+			await bot.api.setWebhook(
+				`https://primer-bot-9txz.onrender.com/${bot.token}`
+			) // Замените ваш домен
+			console.log('Webhook установлен успешно!')
 
-// Запуск сервера на порту 443
-httpsServer.listen(process.env.PORT, () => {
-	console.log('HTTPS Server running...')
-})
+			// Запуск сервера на порту 443
+			httpsServer.listen(process.env.PORT || 443, () => {
+				console.log(`HTTPS Server running on port ${process.env.PORT || 443}`)
+			})
+		} catch (error) {
+			console.error('Ошибка установки вебхука:', error)
+		}
+	}
+)()
 
 // Запуск бота
 bot.start()
