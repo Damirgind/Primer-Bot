@@ -13,7 +13,10 @@
 		"@notionhq/client": "^2.2.15",
 		"axios": "^1.7.7",
 		"dotenv": "^16.4.5",
+		"express": "^4.21.1",
+		"fs": "^0.0.1-security",
 		"grammy": "^1.27.0",
+		"https": "^1.0.0",
 		"nodemon": "^3.1.4"
 	}
 }

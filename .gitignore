@@ -1,2 +1,5 @@
 .env
 /node_modules/
+/certificate.crt
+/private.key
+

@@ -6,14 +6,31 @@ const {
 	HttpError,
 	Keyboard,
 	InlineKeyboard,
-	session,
 } = require('grammy')
 const fetch = require('node-fetch')
 const axios = require('axios')
+const express = require('express')
+const https = require('https')
+const fs = require('fs')
+const app = express()
 
 // Создание бота
 const bot = new Bot(process.env.BOT_API_KEY)
 exports.bot = bot
+
+// Получение значений из переменных окружения
+const privateKey = process.env.PRIVATE_KEY.replace(/\\n/g, '\n')
+const certificate = process.env.CERTIFICATE.replace(/\\n/g, '\n')
+
+const credentials = { key: privateKey, cert: certificate }
+
+// Создание HTTPS сервера
+const httpsServer = https.createServer(credentials, app)
+
+// Настройка вашего бота
+app.post('/' + bot.token, (req, res) => {
+	bot.handleUpdate(req.body, res)
+})
 
 let PERSONDATA = {
 	id: null,
@@ -33,7 +50,7 @@ let PERSONDATA = {
 let DATARECORDS = {}
 
 // ------------
-// Установка команд для бота
+// Установка командhttps. для бота
 bot.api.setMyCommands([
 	{
 		command: 'start',
@@ -1009,6 +1026,11 @@ bot.catch(err => {
 	} else {
 		console.error('Unknown error:', e)
 	}
+})
+
+// Запуск сервера на порту 443
+httpsServer.listen(process.env.PORT, () => {
+	console.log('HTTPS Server running...')
 })
 
 // Запуск бота
